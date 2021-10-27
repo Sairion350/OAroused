@@ -311,7 +311,6 @@ Event OnKeyDown(int keyCode)
 EndEvent
 
 Event OnInit()
-	LoadGameEvents = false 
 	InstallAddon("OAroused")
 
 	odatabase = ostim.GetODatabase()
