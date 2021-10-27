@@ -1,4 +1,4 @@
-ScriptName OArousedScript Extends Quest
+ScriptName OArousedScript Extends ostimaddon 
 
 oarousedscript Function GetOAroused() Global
 	return game.GetFormFromFile(0x800, "oaroused.esp") as OArousedScript
@@ -6,12 +6,10 @@ EndFunction
 
 import outils 
 
-OSexIntegrationMain ostim 
 ODatabaseScript odatabase
 
 osexbar bar
 
-actor playerref 
 
 string CheckTimeKey
 string arousalkey
@@ -313,15 +311,10 @@ Event OnKeyDown(int keyCode)
 EndEvent
 
 Event OnInit()
-	OStim = GetOStim()
-	odatabase = ostim.GetODatabase()
-	if ostim.GetAPIVersion() < 23
-		debug.MessageBox("Your OStim version is out of date. OAroused requires a newer version.")
-		return
-	endif
+	LoadGameEvents = false 
+	InstallAddon("OAroused")
 
-	OStim.RegisterForGameLoadEvent(self)
-	RegisterForOUpdate(self)
+	odatabase = ostim.GetODatabase()
 
 	CheckTimeKey = "ArouLastTime"
 	arousalkey = "oarou"
@@ -333,7 +326,6 @@ Event OnInit()
 
 	RegisterForSingleUpdateGameTime(1)	
 
-	playerref = game.getplayer()
 
 	horny = game.GetFormFromFile(0x805, "oaroused.esp") as spell
 	relieved = game.GetFormFromFile(0x806, "oaroused.esp") as spell
@@ -353,10 +345,9 @@ Event OnInit()
 		StoreNPCDataFloat(playerref, arousalmultkey, 1.0)
 	endif 
 
+	
 	OnGameLoad()
 
-
-	Debug.Notification("OAroused installed")
 EndEvent
 
 Function ApplyArousedEffects(int arousal)
